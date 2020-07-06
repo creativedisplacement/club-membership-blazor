@@ -1,0 +1,14 @@
+﻿@page "/member/create"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+<h3>Create</h3>
+<Form ButtonText="Create member" member="@_member" OnValidSubmit="@CreateDeveloper" />
+
+@code {
+    readonly Member _member = new Member();
+    async Task CreateDeveloper()
+    {
+        await Http.PostAsJsonAsync("api/member", _member);
+        UriHelper.NavigateTo("/");
+    }
+}

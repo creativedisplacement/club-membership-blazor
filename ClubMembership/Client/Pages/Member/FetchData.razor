@@ -1,0 +1,66 @@
+﻿@page "/"
+@using ClubMembership.Shared.Models
+@inject HttpClient Client
+@inject IJSRuntime Js
+
+<h3>Members</h3>
+<small>Add as many members as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="member/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+@if (Members == null)
+{
+    <text>Loading...</text>
+}
+else if (Members.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var member in Members)
+        {
+            <tr>
+                <td>@member.Id</td>
+                <td>@member.FirstName</td>
+                <td>@member.LastName</td>
+                <td>@member.Email</td>
+                <td>@member.Age</td>
+                <td>
+                    <a class="btn btn-success" href="member/edit/@member.Id">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(member.Id))">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+@code {
+    Member[] Members { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        Members = await Client.GetFromJsonAsync<Member[]>("api/member");
+    }
+    async Task Delete(int memberId)
+    {
+        var member = Members.First(x => x.Id == memberId);
+        if (await Js.InvokeAsync<bool>("confirm", $"Do you want to delete {member.FirstName}'s ({member.Id}) Record?"))
+        {
+            await Client.DeleteAsync($"api/member/{memberId}");
+            await OnInitializedAsync();
+        }
+    }
+}

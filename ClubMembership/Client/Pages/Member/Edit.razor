@@ -1,0 +1,23 @@
+﻿@page "/member/edit/{memberId:int}"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+@inject IJSRuntime Js
+<h3>Edit</h3>
+
+<Form ButtonText="Update member" member="@_member" OnValidSubmit="@EditMember" />
+
+@code {
+    [Parameter] public int MemberId { get; set; }
+    Member _member = new Member();
+    protected override async Task OnParametersSetAsync()
+    {
+        _member = await Http.GetFromJsonAsync<Member>($"api/member/{MemberId}");
+    }
+
+    async Task EditMember()
+    {
+        await Http.PutAsJsonAsync("api/member", _member);
+        await Js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        UriHelper.NavigateTo("/");
+    }
+}
