@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubMembership.Client", "Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubMembership.Shared", "Shared\ClubMembership.Shared.csproj", "{D18B522A-B818-4960-9EDC-36EBC11AE45D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubMembership.Data", "ClubMembership.Data\ClubMembership.Data.csproj", "{EA3347FA-FD75-4673-B562-678BC942FA3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubMembership.Data", "Data\ClubMembership.Data.csproj", "{EA3347FA-FD75-4673-B562-678BC942FA3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
